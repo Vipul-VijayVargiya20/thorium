@@ -8,10 +8,11 @@ const publisherController = require("../controllers/publisherController")
 router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
 })
-
-router.post("/createAuthor", authorController.createAuthor  )
+router.post("/createAuthor", authorController.createAuthor)
 router.post("/createPublisher", publisherController.createPublisher)
 router.post("/createBook", bookController.createBook  )
 router.get("/getBooks", bookController.getBooks)
+router.put("/hardCover", bookController.hardCover)
+router.put("/ratings", bookController.ratings)
 
 module.exports = router;

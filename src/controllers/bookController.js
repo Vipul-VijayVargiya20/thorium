@@ -3,6 +3,7 @@ const authorModel = require("../models/authorModel")
 const bookModel= require("../models/bookModel")
 const publisherModel = require("../models/publisherModel")
 
+
 const createBook= async function (req, res) {
     let book = req.body
     let authorId = book.author
@@ -30,7 +31,40 @@ const getBooks= async function (req, res) {
     let books = await bookModel.find().populate('author publisher')
     res.send({data: books})
 }
+//question 5 additional
+const ratings = async function (req, res) {
+    let rating = await authorModel.find({ ratings: { $gt: 3.5 } })
+    let match = []
+    for (let i = 0; i < rating.length; i++)
+        match.push(rating[i]._id)
+    let newbooks = await bookModel.updateMany(
+        { author_id: { $in: match } },
+        { $inc: req.body },
+        { $new: true }
+    )
+    let bookee = await bookModel.find({ author_id: { $in: match } })
+
+    res.send({ data: bookee })
+    }
+    const hardCover = async function (req, res) {
+         let publisherId = await publisherModel.find({ publisher_Name: { $in: ["Penguin", "HarperCollins"] } })
+        
+        let match = []
+        for (let i = 0; i < publisherId.length; i++)
+            match.push(publisherId[i]._id)
+        let books = await bookModel.updateMany(
+            { publisher_id: { $in: match } },
+            { $set: req.body },
+            { $new: true }
+        )
+        res.send({data: books})
+    }
+    
+  
 
 
 module.exports.createBook= createBook
 module.exports.getBooks= getBooks
+module.exports.ratings = ratings
+module.exports.hardCover= hardCover
+
