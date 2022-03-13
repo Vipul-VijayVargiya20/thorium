@@ -7,16 +7,15 @@ let axios = require("axios")
 
 let getSortedCities= async function (req, res) {
     try {
+  let Cities= ["Bengaluru","Mumbai","Delhi","Kolkata","Chennai","London","Moscow"]
+ let Cityobjarr=[]
+ for (i = 0; i < Cities.length; i++) {
+let obj = { City:Cities[i] }
+let resp =await axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${Cities[i]}&appid=25ea8d70fe7db254e8554e8887ae98f2`)
+console.log(resp.data.main.temp)
 
-        let Cities= ["Bengaluru","Mumbai","Delhi","Kolkata","Chennai","London","Moscow"]
-        let Cityobjarr=[]
-        for (i = 0; i < Cities.length; i++) {
-            let obj = { City:Cities[i] }
-            let resp =await axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${Cities[i]}&appid=25ea8d70fe7db254e8554e8887ae98f2`)
-            console.log(resp.data.main.temp)
-
-            obj.temp= resp.data.main.temp
-            Cityobjarr.push(obj)
+ obj.temp= resp.data.main.temp
+Cityobjarr.push(obj)
         }
         let sorted = Cityobjarr.sort( function(a,b) { return a.touch - b.touch})
 
