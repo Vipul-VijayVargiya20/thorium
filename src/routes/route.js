@@ -1,23 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const cowinController= require("../controllers/cowinController")
-const assignmentController = require("../controllers/assignmentController")
+const AuthorController = require("../controllers/authorController")
+const BlogsController = require("../controllers/blogsController")
 
 
+router.post("/authors", AuthorController.createAuthor)
 
-router.get("/test-me", function (req, res) {
-    res.send("My first ever api!")
-})
+router.post("/blogs", BlogsController.createBlogs)
 
+router.get("/blogs", BlogsController.getBlogs)
 
-router.get("/cowin/states", cowinController.getStates)
-router.get("/cowin/districtsInState/:stateId", cowinController.getDistricts)
-router.get("/cowin/getByPin", cowinController.getByPin)
-router.get("/cowin/getByDistrictId", cowinController.sessionByDistrictId)
-router.post("/cowin/getOtp", cowinController.getOtp)
-router.get("/getSortedCities", assignmentController.getSortedCities)
+router.put("/blogs/:blogId", BlogsController.updateBlogs)
 
-router.post("/meme", cowinController.memeHandler)
+router.delete("/blogs/:blogId", BlogsController.deleteBlogById)
+
+router.delete("/blogs", BlogsController.deleteBlogByQueryParams)
 
 
 module.exports = router;
